@@ -1,0 +1,15 @@
+0 cookies
+1 noodles
+2 Oatmeal
+3 rice
+4 toast
+5 cabbage 
+6 Strawberry
+7 Banana
+8 Cauliflower
+9 Cucumber
+10 Shrimp
+11 Fish
+12 chicken breast
+13 Egg
+14 Sweet sour pork

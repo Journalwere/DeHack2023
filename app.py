@@ -7,7 +7,7 @@ import numpy as np
 np.set_printoptions(suppress=True)
 
 # Load the model
-model = keras.models.load_model("keras_Model.h5", compile=False)
+model = keras.models.load_model("keras_model.h5", compile=False)
 
 # Load the labels
 class_names = open("labels.txt", "r").readlines()
