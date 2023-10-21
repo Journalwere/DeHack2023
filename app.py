@@ -12,6 +12,25 @@ model = keras.models.load_model("keras_model.h5", compile=False)
 # Load the labels
 class_names = open("labels.txt", "r").readlines()
 
+# Load the calorie information
+calorie_data = {
+    "cookies": 150,
+    "noodles": 200,
+    "oatmeal": 150,
+    "rice": 130,
+    "toast": 100,
+    "cabbage": 25,
+    "strawberry": 50,
+    "banana": 105,
+    "cauliflower": 25,
+    "cucumber": 15,
+    "shrimp": 100,
+    "fish": 100,
+    "chicken breast": 150,
+    "egg": 78,
+    "sweet sour pork": 300,
+}
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -50,23 +69,25 @@ def upload_file():
         import os
         os.remove('uploaded_file.jpg')
 
-        # Print prediction and confidence score
-        print("Class:", class_name[2:], end="")
-        print("Confidence Score:", confidence_score)
+        print("Class Name from Model:", class_name)
+        
+        # Get the food class name (excluding index)
+        food_class = class_name[2:].strip()
 
-        # Return prediction as response
-        return f"Class: {class_name[2:]}, Confidence Score: {confidence_score}"
+        print("Food Class:", food_class)
+        print("Is in calorie_data:", food_class.lower() in calorie_data)
+
+        # Look up the calorie count
+        if food_class.lower() in calorie_data:
+            calorie_count = calorie_data[food_class.lower()]
+        else:
+            calorie_count = "Calorie information not available."
+
+        # Return prediction, confidence score, and calorie information
+        return f"Class: {food_class}, Confidence Score: {confidence_score}, Calories: {calorie_count}"
 
     # Display an HTML form for uploading a file
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-    '''
+    return render_template('index.html', title='Upload File')
 
 if __name__ == '__main__':
     app.run(debug=True)
